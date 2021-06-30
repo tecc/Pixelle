@@ -10,6 +10,7 @@ namespace pixelle::graphics {
         Window();
 
         void update();
+        void onClose();
     };
 
     void initGraphics();

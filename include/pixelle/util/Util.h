@@ -5,7 +5,8 @@
 
 namespace pixelle {
     namespace util {
-
+        template<typename I>
+        std::string toHexString(I number);
     }
 
     namespace log {
@@ -16,12 +17,16 @@ namespace pixelle {
             ERROR
         };
 
-        void _log(LogLevel level, const std::string& message);
+        void _log(std::ostream& out, LogLevel level, const std::string& message);
         void debug(const std::string& message);
         void info(const std::string& message);
         void warn(const std::string& message);
         void error(const std::string& message);
     }
+
+
 }
+
+#include <pixelle/util/Util.tcc>
 
 #endif

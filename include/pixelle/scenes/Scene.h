@@ -1,7 +1,7 @@
 #ifndef PIXELLE_SCENE_H
 #define PIXELLE_SCENE_H
 
-#warning Pixelle does not have support for scenes yet
+// TODO: Scene system
 
 namespace pixelle::scenes {
     class Scene {

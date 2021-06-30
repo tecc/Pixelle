@@ -3,11 +3,13 @@
 
 #include <pixelle/scenes/Scene.h>
 #include <string>
+#include <pixelle/util/Colour.h>
 
 namespace pixelle {
     struct Settings {
         std::string name = "Pixelle Game";
         bool vsync = true;
+        util::Colour defaultColour = .5f;
     };
     Settings getSettings();
 

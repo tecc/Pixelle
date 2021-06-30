@@ -28,6 +28,14 @@ void graphics::initGraphics() {
     window = new Window();
 }
 
+#define evh(x, ...) void ev_##x(GLFWwindow* glfwWindow , ## __VA_ARGS__) { window->x(__VA_ARGS__); } \
+void graphics::Window::x(__VA_ARGS__)
+
+evh(onClose) {
+    log::info("Close event");
+    exit(0);
+}
+
 graphics::Window::Window() {
     if (pixelle::graphics::getWindow() != nullptr) {
         throw pixelle::Exception("A Window instance already exists!");
@@ -57,6 +65,10 @@ graphics::Window::Window() {
     // make the window context the current context
     glfwMakeContextCurrent(glfwWindow);
 
+    // event handlers
+    log::debug("Setting event handlers");
+    glfwSetWindowCloseCallback(glfwWindow, ev_onClose);
+
     // load opengl w/ GLAD2
     log::debug("Loading GL using GLAD2");
     int glVersion = gladLoadGL(glfwGetProcAddress);
@@ -69,9 +81,13 @@ graphics::Window::Window() {
     // set meta
     this->meta = new WindowMeta();
     meta->glfw = glfwWindow;
+
+    log::debug(std::string("Default colour: ") + (std::string) settings.defaultColour);
 }
 
 void graphics::Window::update() {
+    auto defColour = getSettings().defaultColour;
+    glClearColor(defColour.getRed(), defColour.getGreen(), defColour.getBlue(), defColour.getAlpha());
     glClear(GL_COLOR_BUFFER_BIT);
 }
 
@@ -81,4 +97,5 @@ graphics::Window* graphics::getWindow() {
 
 void graphics::updateGraphics() {
     glfwPollEvents();
+    window->update();
 }

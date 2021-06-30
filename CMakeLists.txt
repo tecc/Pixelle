@@ -2,8 +2,16 @@ cmake_minimum_required(VERSION 3.19)
 project(Pixelle)
 
 set(BUILD_SHARED_LIBS OFF)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
+
+option(PIXELLE_BUILD_SHARED_LIBRARY "Whether or not to build a shared or static library" OFF)
+if (PIXELLE_BUILD_SHARED_LIBRARY)
+    set(PIXELLE_LIBRARY_TYPE "SHARED")
+else()
+    set(PIXELLE_LIBRARY_TYPE "STATIC")
+endif()
+message(STATUS "Pixelle library type: ${PIXELLE_LIBRARY_TYPE}")
 
 include(Util)
 set(PIXELLE_GRAPHICS_API gl)
@@ -15,6 +23,8 @@ prefix_list(PIXELLE_GRAPHICS_SOURCES src/graphics/${PIXELLE_GRAPHICS_API}/
 
 prefix_list(PIXELLE_UTIL_SOURCES src/util/
     Util.cpp
+    Colour.cpp
+    Math.cpp
     Exception.cpp
     )
 
@@ -22,11 +32,12 @@ prefix_list(PIXELLE_SOURCES src/
     Engine.cpp
     )
 
-add_library(Pixelle SHARED
+add_library(Pixelle ${PIXELLE_LIBRARY_TYPE}
     ${PIXELLE_GRAPHICS_SOURCES}
     ${PIXELLE_UTIL_SOURCES}
     ${PIXELLE_SOURCES}
     )
+list(APPEND PIXELLE_INCLUDE_DIRS_PRIVATE ${CMAKE_CURRENT_LIST_DIR}/include-tcc)
 list(APPEND PIXELLE_INCLUDE_DIRS ${CMAKE_CURRENT_LIST_DIR}/include)
 
 if (${PIXELLE_GRAPHICS_API} MATCHES "gl")
