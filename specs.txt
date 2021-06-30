@@ -1,0 +1,12 @@
+PIXELLE SPECIFICATIONS
+----------------------
+
+Platforms
+    Windows 10 and above
+    Linux
+    MacOS X
+
+Graphics implementations
+    OpenGL 3.0
+    DirectX 11
+    Metal

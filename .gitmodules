@@ -1,0 +1,8 @@
+[submodule "lib/ShaderConductor"]
+	path = lib/ShaderConductor
+	url = https://github.com/Microsoft/ShaderConductor
+	branch=v0.3.0
+[submodule "lib/glfw"]
+	path = lib/glfw
+	url = https://github.com/glfw/glfw
+	branch = 3.3-stable

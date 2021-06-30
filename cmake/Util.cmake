@@ -1,0 +1,6 @@
+function(prefix_list var prefix)
+    foreach(el IN LISTS ARGN)
+        set(out ${out} ${prefix}${el})
+    endforeach()
+    set(${var} ${out} PARENT_SCOPE)
+endfunction()
