@@ -17,9 +17,7 @@ namespace pixelle::math {
         Number x;
         Number y;
 
-        inline Vector2() : Vector2(0) {};
-        inline Vector2(Number x) : Vector2(x, 0) {};
-        Vector2(Number x, Number y) : x(x), y(y) {};
+        Vector2(Number x = 0, Number y = 0) : x(x), y(y) {};
     };
 }
 

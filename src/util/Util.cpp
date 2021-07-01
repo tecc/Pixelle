@@ -34,3 +34,11 @@ ll(std::cerr, warn, WARN)
 ll(std::cerr, error, ERROR)
 
 #undef ll
+
+std::filesystem::path util::getExecutableDir() {
+    return getExecutablePath().parent_path();
+}
+
+std::filesystem::path util::getWorkingDir() {
+    return absolute(std::filesystem::path("./"));
+}

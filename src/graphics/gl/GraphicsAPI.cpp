@@ -90,9 +90,7 @@ void graphics::Window::update() {
     auto defColour = settings.defaultColour;
     glClearColor(defColour.getRed(), defColour.getGreen(), defColour.getBlue(), defColour.getAlpha());
     glClear(GL_COLOR_BUFFER_BIT);
-    if (settings.vsync) {
-        glfwSwapBuffers(meta->glfw);
-    }
+    glfwSwapBuffers(meta->glfw);
 }
 
 graphics::Window* graphics::getWindow() {

@@ -1,6 +1,8 @@
 #ifndef PIXELLE_UTIL_TCC
 #define PIXELLE_UTIL_TCC
 
+#include <pixelle/util/Util.h>
+
 template<typename I>
 std::string pixelle::util::toHexString(I number) {
     static const char* ALPHABET = "0123456789ABCDEF";

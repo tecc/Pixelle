@@ -2,11 +2,18 @@
 #define PIXELLE_UTIL_H
 
 #include <string>
+#include <cstdint>
+#include <filesystem>
 
 namespace pixelle {
     namespace util {
         template<typename I>
         std::string toHexString(I number);
+
+        void wait(uint64_t ms);
+        std::filesystem::path getExecutablePath();
+        std::filesystem::path getExecutableDir();
+        std::filesystem::path getWorkingDir();
     }
 
     namespace log {
