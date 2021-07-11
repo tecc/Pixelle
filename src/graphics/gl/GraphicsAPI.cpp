@@ -1,5 +1,6 @@
 #include <pixelle/graphics/GraphicsAPI.h>
 #include <pixelle/internal/gl_meta.h>
+#include <pixelle/internal/gl/shader.h>
 #include <pixelle/util/Exception.h>
 #include <pixelle/util/Util.h>
 #include <pixelle/Engine.h>
@@ -8,6 +9,50 @@
 #define DEFAULT_WINDOW_WIDTH 640
 
 using namespace pixelle;
+
+unsigned int vertexShader;
+unsigned int fragShader;
+unsigned int shaderProgram;
+
+inline void loadShader(unsigned int shader, const char* source) {
+    glShaderSource(shader, 1, &source, nullptr);
+    glCompileShader(shader);
+    int success;
+    char info[512];
+    glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+    if (!success) {
+        glGetShaderInfoLog(shader, 512, nullptr, info);
+        pixelle::log::error(_str("An error occurred whilst compiling shader ") + std::to_string(shader) + ": \n" + info);
+        exit(1);
+    }
+}
+
+inline void loadShaders() {
+    // load the vertex shader
+    vertexShader = glCreateShader(GL_VERTEX_SHADER);
+    loadShader(vertexShader, PIXELLE_GL_VERTEX_SHADER);
+    // load the frag shader
+    fragShader = glCreateShader(GL_FRAGMENT_SHADER);
+    loadShader(fragShader, PIXELLE_GL_FRAG_SHADER);
+
+    // create shader program
+    shaderProgram = glCreateProgram();
+    // attach vertex & frag shaders
+    glAttachShader(shaderProgram, vertexShader);
+    glAttachShader(shaderProgram, fragShader);
+    glLinkProgram(shaderProgram);
+    int success;
+    char info[512];
+    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
+    if (!success) {
+        glGetShaderInfoLog(shaderProgram, 512, nullptr, info);
+        pixelle::log::error(_str("An error occurred whilst compiling shader ") + std::to_string(shaderProgram) + ": \n" + info);
+        exit(1);
+    }
+    pixelle::log::info("Loaded vertex/frag shader program");
+    glDeleteShader(vertexShader);
+    glDeleteShader(fragShader);
+}
 
 inline std::string getGlfwErr() {
     const char* dat;
@@ -87,6 +132,9 @@ graphics::Window::Window() {
     int major = GLAD_VERSION_MAJOR(glVersion), minor = GLAD_VERSION_MINOR(glVersion);
     log::debug(std::string("Using OpenGL version ") + std::to_string(major) + "." + std::to_string(minor));
 
+    glViewport(0, 0, settings.dimensions.x, settings.dimensions.y);
+    loadShaders();
+
     // set meta
     this->meta = new WindowMeta();
     meta->glfw = glfwWindow;
@@ -99,6 +147,9 @@ void graphics::Window::update() {
     auto defColour = settings.defaultColour;
     glClearColor(defColour.getRed(), defColour.getGreen(), defColour.getBlue(), defColour.getAlpha());
     glClear(GL_COLOR_BUFFER_BIT);
+
+    glUseProgram(shaderProgram);
+
     glfwSwapBuffers(meta->glfw);
 }
 
