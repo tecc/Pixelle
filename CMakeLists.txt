@@ -22,6 +22,7 @@ set(PIXELLE_GRAPHICS_API gl)
 prefix_list(PIXELLE_GRAPHICS_SOURCES src/graphics/${PIXELLE_GRAPHICS_API}/
     GraphicsAPI.cpp
     Texture.cpp
+    RenderObject.cpp
     )
 
 # Utility sources
@@ -30,6 +31,11 @@ prefix_list(PIXELLE_UTIL_SOURCES src/util/
     Colour.cpp
     Math.cpp
     Exception.cpp
+    )
+
+# Resources sources
+prefix_list(PIXELLE_RESOURCES_SOURCES src/resources/
+    Resource.cpp
     )
 
 # Base sources
@@ -41,11 +47,11 @@ prefix_list(PIXELLE_SOURCES src/
 add_library(Pixelle ${PIXELLE_LIBRARY_TYPE}
     ${PIXELLE_GRAPHICS_SOURCES}
     ${PIXELLE_UTIL_SOURCES}
+    ${PIXELLE_RESOURCES_SOURCES}
     ${PIXELLE_SOURCES}
     )
 # Set private and public include directories
-list(APPEND PIXELLE_INCLUDE_DIRS_PRIVATE ${CMAKE_CURRENT_LIST_DIR}/include-tcc)
-list(APPEND PIXELLE_INCLUDE_DIRS ${CMAKE_CURRENT_LIST_DIR}/include)
+list(APPEND PIXELLE_INCLUDE_DIRS ${CMAKE_CURRENT_LIST_DIR}/include ${CMAKE_CURRENT_LIST_DIR}/include-tcc)
 find_package(PkgConfig REQUIRED)
 
 # nlohmann-json / JSON for Modern C++
@@ -59,6 +65,12 @@ pkg_check_modules(ZLIB REQUIRED zlib)
 list(APPEND PIXELLE_LIBRARIES ${ZLIB_LIBRARIES})
 list(APPEND PIXELLE_INCLUDE_DIRS_PRIVATE ${ZLIB_INCLUDE_DIRS})
 
+# LibBSD: utilities
+message(STATUS "Using LibBSD")
+pkg_check_modules(LIBBSD REQUIRED libbsd)
+list(APPEND PIXELLE_LIBRARIES ${LIBBSD_LIBRARIES})
+list(APPEND PIXELLE_LIBRARIES ${LIBBSD_INCLUDE_DIRS})
+
 if (${PIXELLE_GRAPHICS_API} MATCHES "gl")
     # GLFW
     message(STATUS "Including GLFW")
@@ -68,18 +80,17 @@ if (${PIXELLE_GRAPHICS_API} MATCHES "gl")
     set(GLFW_VULKAN_STATIC OFF)
     add_subdirectory(lib/glfw)
     list(APPEND PIXELLE_LIBRARIES glfw)
-    list(APPEND PIXELLE_INCLUDE_DIRS_PRIVATE ${GLFW_INCLUDE_DIRS})
+    list(APPEND PIXELLE_INCLUDE_DIRS ${GLFW_INCLUDE_DIRS})
 
     # GLAD
     message(STATUS "Including GLAD2")
     add_subdirectory(lib/glad)
     list(APPEND PIXELLE_LIBRARIES glad)
-    list(APPEND PIXELLE_INCLUDE_DIRS_PRIVATE ${GLAD_INCLUDE_DIRS})
+    list(APPEND PIXELLE_INCLUDE_DIRS ${GLAD_INCLUDE_DIRS})
 endif()
 
 # Link libraries and directories
 target_link_libraries(Pixelle ${PIXELLE_LIBRARIES})
-target_include_directories(Pixelle PRIVATE ${PIXELLE_INCLUDE_DIRS_PRIVATE})
 target_include_directories(Pixelle PUBLIC ${PIXELLE_INCLUDE_DIRS})
 
 set(PIXELLE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
@@ -88,8 +99,7 @@ if (PIXELLE_BUILD_TOOLS)
     message(STATUS "Including Argh! library")
     add_subdirectory(lib/argh)
 
-    message(STATUS "Including Pixelle tools")
-    add_subdirectory(tools/resources)
+    message(WARNING "Pixelle has no tools for now!")
 endif()
 
 # Test game
