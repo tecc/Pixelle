@@ -12,6 +12,15 @@ struct pixelle::graphics::TextureMeta {
 };
 #endif
 
+#ifdef PIXELLE_RENDEROBJECT_H
+#include <cstddef>
+struct pixelle::graphics::RenderObjectMeta {
+    GLuint vao;
+    GLuint vbo;
+    GLuint ebo;
+};
+#endif
+
 #ifdef PIXELLE_GRAPHICSAPI_H
 struct pixelle::graphics::WindowMeta {
 public:
