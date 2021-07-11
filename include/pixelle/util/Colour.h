@@ -17,9 +17,11 @@ namespace pixelle::util {
 
     public:
         Colour(float r) : Colour(r, r, r, 1.f) {};
+        Colour(float r, float g, float b) : Colour(r, g, b, 1.f) {};
         Colour(float r, float g, float b, float a);
 
         uint32_t getRGBA() const;
+        uint32_t getARGB() const;
         float getRed();
         uint8_t getRedByte();
         float getGreen();
@@ -34,6 +36,7 @@ namespace pixelle::util {
 
         static Colour fromHSV(float hue, float saturation, float value, float alpha = 1.f);
         static Colour fromARGB(uint32_t argb);
+        static Colour random(bool randomAlpha = false);
     };
 }
 

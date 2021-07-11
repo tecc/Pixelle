@@ -7,6 +7,11 @@ using namespace pixelle;
 
 util::Colour::Colour(float r, float g, float b, float a) : red(r), green(g), blue(b), alpha(a) { }
 
+uint32_t util::Colour::getARGB() const {
+    auto r = (uint8_t) (red * 255), g = (uint8_t) (green * 255), b = (uint8_t) (blue * 255), a = (uint8_t) (alpha *
+                                                                                                            255);
+    return a << 24 | r << 16 | g << 8 | b;
+}
 uint32_t util::Colour::getRGBA() const {
     auto r = (uint8_t) (red * 255), g = (uint8_t) (green * 255), b = (uint8_t) (blue * 255), a = (uint8_t) (alpha *
                                                                                                             255);
@@ -70,6 +75,12 @@ util::Colour util::Colour::fromARGB(uint32_t argb) {
 }
 
 std::string util::Colour::toHexString() const {
-    return util::toHexString(getRGBA());
+    return util::toHexString(getARGB());
+}
+
+util::Colour util::Colour::random(bool randomAlpha) {
+    auto col = fromARGB(util::random());
+    if (!randomAlpha) col.alpha = 1.f;
+    return col;
 }
 
