@@ -4,9 +4,7 @@
 #include <pixelle/util/Exception.h>
 #include <pixelle/util/Util.h>
 #include <pixelle/Engine.h>
-
-#define DEFAULT_WINDOW_HEIGHT 480
-#define DEFAULT_WINDOW_WIDTH 640
+#include <vector>
 
 using namespace pixelle;
 
