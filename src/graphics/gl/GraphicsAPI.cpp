@@ -120,6 +120,8 @@ graphics::Window::Window() {
     // event handlers
     log::debug("Setting event handlers");
     glfwSetWindowCloseCallback(glfwWindow, ev_onClose);
+    glfwSetFramebufferSizeCallback(glfwWindow, ev_onFramebufSize);
+
 
     // load opengl w/ GLAD2
     log::debug("Loading GL using GLAD2");
