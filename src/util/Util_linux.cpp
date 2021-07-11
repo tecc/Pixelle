@@ -12,3 +12,7 @@ std::filesystem::path pixelle::util::getExecutablePath() {
     ssize_t count = readlink("/proc/self/exe", result, PATH_MAX);
     return std::filesystem::path(std::string(result, (count > 0) ? count : 0));
 }
+
+std::filesystem::path pixelle::util::getRootDir() {
+    return std::filesystem::path("/");
+}
