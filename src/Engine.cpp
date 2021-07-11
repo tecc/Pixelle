@@ -19,7 +19,8 @@ void pixelle::start(pixelle::scenes::Scene* scene, pixelle::Settings* gameSettin
     auto* window = pixelle::graphics::getWindow();
     while (!window->shouldClose()) {
         pixelle::graphics::updateGraphics();
-        util::wait(1);
+        if (settings->minIntermission != 0)
+            util::wait(settings->minIntermission);
     }
 }
 

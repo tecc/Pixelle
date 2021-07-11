@@ -10,6 +10,12 @@ namespace pixelle {
         std::string name = "Pixelle Game";
         bool vsync = true;
         util::Colour defaultColour = .5f;
+        /**
+         * The window dimensions.
+         * X functions as width and Y functions as height.
+         */
+        math::Vector2<int> dimensions = { 640, 480 };
+        uint64_t minIntermission = 1;
     };
     Settings getSettings();
 

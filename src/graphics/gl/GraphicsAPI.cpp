@@ -53,7 +53,7 @@ graphics::Window::Window() {
     log::debug("Creating GLFW window");
     // create window
     auto glfwWindow = glfwCreateWindow(
-            DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT,
+            settings.dimensions.x, settings.dimensions.y,
             settings.name.c_str(),
             nullptr, nullptr
     );
