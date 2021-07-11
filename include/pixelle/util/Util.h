@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <filesystem>
 
+#define _str(...) std::string(__VA_ARGS__)
+
 namespace pixelle {
     namespace util {
         template<typename I>
