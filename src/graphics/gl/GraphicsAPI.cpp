@@ -28,12 +28,21 @@ void graphics::initGraphics() {
     window = new Window();
 }
 
-#define evh(x, ...) void ev_##x(GLFWwindow* glfwWindow , ## __VA_ARGS__) { window->x(__VA_ARGS__); } \
-void graphics::Window::x(__VA_ARGS__)
 
-evh(onClose) {
+void graphics::Window::onClose() {
     log::info("Close event");
     exit(0);
+}
+void ev_onClose(GLFWwindow*) {
+    graphics::getWindow()->onClose();
+}
+
+void graphics::Window::onFramebufferSize(int width, int height) {
+    log::debug(_str("Framebuffer resized to ") + (std::string) math::Vector2{width, height});
+    glViewport(0, 0, width, height);
+}
+void ev_onFramebufSize(GLFWwindow*, int w, int h) {
+    graphics::getWindow()->onFramebufferSize(w, h);
 }
 
 graphics::Window::Window() {
