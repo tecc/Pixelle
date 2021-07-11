@@ -153,6 +153,16 @@ void graphics::Window::update() {
     glfwSwapBuffers(meta->glfw);
 }
 
+math::Vector2<int> graphics::Window::getFramebufferSize() {
+    math::Vector2<int> size;
+    glfwGetFramebufferSize(this->meta->glfw, &size.x, &size.y);
+    return size;
+}
+
+bool graphics::Window::shouldClose() {
+    return glfwWindowShouldClose(this->meta->glfw);
+}
+
 graphics::Window* graphics::getWindow() {
     return window;
 }
