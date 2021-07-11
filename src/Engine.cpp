@@ -5,6 +5,8 @@
 pixelle::Settings* settings;
 
 void pixelle::start(pixelle::scenes::Scene* scene, pixelle::Settings* gameSettings) {
+    settings = gameSettings;
+
     pixelle::log::info("PIXELLE - 2D PIXEL GAME ENGINE - BY CAE'S LAB");
     pixelle::log::debug("Printing debug information");
     pixelle::log::debug("Executable location: " + util::getExecutablePath().string());
@@ -12,7 +14,6 @@ void pixelle::start(pixelle::scenes::Scene* scene, pixelle::Settings* gameSettin
     // pixelle::log::debug("");
     pixelle::log::info("=====================================");
 
-    settings = gameSettings;
     pixelle::log::info("Starting game");
     pixelle::graphics::initGraphics();
 
